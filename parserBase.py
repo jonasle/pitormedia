@@ -12,12 +12,15 @@ class  TorrentParserSettings:
 
 class Torrent:
 	name 		= ''
-	infoURL 	= ''
-	magnetURL 	= ''
-	torrentURL	= ''
+	info_url 	= ''
+	magnet_link	= ''
+	torrent_url	= ''
 
 	def __repr__(self):
-		return u"<Torrent: name:%s infoURL:%s magnetURL:%s>" % (self.name, self.infoURL, self.magnetURL)
+		return u"<Torrent: name:%s infoURL:%s magnet:%s>" % (self.name, self.info_url, self.magnet_link)
+
+	def __str__(self):
+		return self.__repr__()
 
 class TorrentParserBase:
 
@@ -26,6 +29,7 @@ class TorrentParserBase:
 
 	def _gethtmlpage(self, keywords):
 		url = self._constructurl(keywords)
+		print url
 		u = urllib2.urlopen(url)
 		contents = u.read()
 		return contents
@@ -35,4 +39,4 @@ class TorrentParserBase:
 
 	def findtorrents(self, keywords):
 		htmlpage = self._gethtmlpage(keywords)
-		self._parsepage(htmlpage)
+		return self._parsepage(htmlpage)

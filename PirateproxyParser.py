@@ -10,23 +10,26 @@ class PirateproxyParser(TorrentParserBase):
 	settings.searchurl = settings.base_uri + 'search/'
 
 	def _constructurl(self, keywords):
-		search_string = ' '.join(keywords)
+		search_string = ''.join(keywords)
 		return self.settings.searchurl + search_string + '/0/7/0'
 
 	def _parsepage(self, page):
 		soupPage = BeautifulSoup(page)
 		searchResults = soupPage.find_all(id='searchResult')
 		torrents = []
-		for result in searchResults[0].find_all('tr'):
-			searchResult = Torrent()
-			name = result.find(class_='detName')
-			if(name is None):
-				continue
-			searchResult.name = name.get_text()
-			for link in result.find_all('a'):
-				if(link.get('class') == 'detLink'):
-					searchResult.infoURL = link.get('href')
-				if(link.get('href').startswith('magnet')):
-					searchResult.magnetURL = link.get('href')
-			torrents.append(searchResult)
+		try:
+			for result in searchResults[0].find_all('tr'):
+				searchResult = Torrent()
+				name = result.find(class_='detName')
+				if(name is None):	# Not a torrent
+					continue
+				searchResult.name = name.get_text()
+				for link in result.find_all('a'):
+					if(link.get('class') and link.get('class')[0] == 'detLink'):
+						searchResult.info_url = self.settings.base_uri + link.get('href')
+					if(link.get('href').startswith('magnet')):
+						searchResult.magnet_link = link.get('href')
+				torrents.append(searchResult)
+		except:
+			pass
 		return torrents

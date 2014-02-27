@@ -2,15 +2,27 @@ from bs4 import BeautifulSoup
 import urllib2
 
 class  TorrentParserSettings:
-	pass
+	base_uri 	= ''
+	site_name	= ''
+	search_url	= ''
+
+	def __repr__(self):
+		return u"<TorrentParserSettings: base_uri:%s site_name:%s>" % (self.base_uri, self.site_name)
+
 
 class Torrent:
-	pass
+	name 		= ''
+	infoURL 	= ''
+	magnetURL 	= ''
+	torrentURL	= ''
+
+	def __repr__(self):
+		return u"<Torrent: name:%s infoURL:%s magnetURL:%s>" % (self.name, self.infoURL, self.magnetURL)
 
 class TorrentParserBase:
 
 	def _constructurl(self, keywords):
-		return 'http://bayproxy.me/search/test/0/7/'
+		pass
 
 	def _gethtmlpage(self, keywords):
 		url = self._constructurl(keywords)

@@ -21,7 +21,7 @@ def home():
 @web.route("/search")
 def search():
 	p = PirateproxyParser.PirateproxyParser()
-	p.findtorrents('')
+	p.findtorrents(['How', 'I', 'Met', 'Your', 'Mother'])
 
 if __name__ == '__main__':
 	#web.run(host='0.0.0.0', port=8080, debug=True)

@@ -1,6 +1,18 @@
 <html>
 <title>{{ title }}</title>
-
-<h2>Torrents</h2>
-<pre>{{ torrents }}</pre>
+<body>
+	{% block search %}{% endblock %}
+	{% if action.search %}
+		<div id="searchResults">
+			<ol>
+			{% for torrent in torrents %}
+				<li>
+					<a href="/download/{{ torrent.magnet_link }}">M</a>&nbsp;<a href="{{ torrent.info_url }}">{{ torrent.name }}</a>
+				</li>
+			{% else %}
+			{% endfor %}
+			</ol>
+		</div>
+	{% endif %}
+</body>
 </html>

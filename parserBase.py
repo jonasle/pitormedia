@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import urllib2
+import urllib
+import cPickle
 
 class  TorrentParserSettings:
 	base_uri 	= ''
@@ -11,10 +13,13 @@ class  TorrentParserSettings:
 
 
 class Torrent:
-	name 		= ''
-	info_url 	= ''
-	magnet_link	= ''
-	torrent_url	= ''
+	name 			= ''
+	info_url 		= ''
+	magnet_link		= ''
+	torrent_url		= ''
+
+	def get_magnet(self):
+		return urllib.quote(self.magnet_link)
 
 	def __repr__(self):
 		return u"<Torrent: name:%s infoURL:%s magnet:%s>" % (self.name, self.info_url, self.magnet_link)

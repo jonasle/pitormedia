@@ -1,17 +1,48 @@
 <html>
 <title>{{ title }}</title>
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <body>
-	{% block search %}{% endblock %}
+	{% block header %}
+		<div id="head" class="pure-g-r">
+			<div id="head" class="pure-u-2-24">
+				<span><i class="fa fa-download"></i> PiTorMedia</span>
+			</div>
+			<div id="search" class="pure-u-16-24">
+				<form class="pure-form" action="{{ urls.search }}">
+					<input type="text" name="q" id="q" class="pure-input-1-2"/>
+					<button type="submit" class="pure-button pure-button-primary">
+						<i class="fa fa-search"></i>
+						Search
+					</button>
+				</form>
+			</div>
+			<div id="nav" class="pure-u-6-24">
+				<div id="menu" class="pure-menu pure-menu-open pure-menu-horizontal">
+					<ul>
+						<li class="pure-menu-selected"><a href="/">Search</a></li>
+						<li><a href="/torrents">Torrents</a></li>
+						<li><a href="/settings">Settings</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
 	{% if action.search %}
 		<div id="searchResults">
 			<ol>
 			{% for torrent in torrents %}
 				<li>
-					<a href="/download/{{ torrent.magnet_link }}">M</a>&nbsp;<a href="{{ torrent.info_url }}">{{ torrent.name }}</a>
+					<a href="/download/{{ torrent.get_magnet() }}">M</a>&nbsp;<a href="{{ torrent.info_url }}">{{ torrent.name }}</a>
 				</li>
 			{% else %}
 			{% endfor %}
 			</ol>
+		</div>
+	{% elif action.status %}
+		<div id="statusOverview">
+			<h2>Status</h2>
+			{{ status }}
 		</div>
 	{% endif %}
 </body>

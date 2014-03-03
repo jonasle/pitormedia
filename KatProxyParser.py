@@ -38,6 +38,9 @@ class KatProxyParser(TorrentParserBase):
 				seeders = result.find(class_='green')
 				if(seeders is not None):
 					searchResult.seeders = int(seeders.get_text())
+				leechers = result.find(class_='red')
+				if(leechers is not None):
+					searchResult.leechers = int(leechers.get_text())
 				torrents.append(searchResult)
 		except:
 			print "Unexpected error:", sys.exc_info()

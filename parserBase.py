@@ -22,6 +22,7 @@ class Torrent:
 	source			= ''
 	source_class	= ''
 	seeders			= 0
+	leechers		= 0
 
 	def __init__(self, source):
 		self.source = source

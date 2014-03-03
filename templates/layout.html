@@ -19,8 +19,8 @@
 	ol#rex li a{
 		color: #0078e7;
 	}
-	.seeders {
-		font-size: 80%;
+	.info {
+		font-size: 60%;
 	}
 	.source {
 		margin: 0px 0.1em;
@@ -83,11 +83,12 @@
 							<i class="fa fa-download inactive"></i>
 							{% endif %}
 						</div>
-						<div class="pure-u-16-24">
-							<a href="{{ torrent.info_url }}">{{ torrent.name }}</a>
-						</div>
-						<div class="pure-u-2-24">
-							<span class="seeders"><i class="fa fa-users"></i> {{ torrent.seeders }}</span>
+						<div class="pure-u-18-24">
+							<div><a href="{{ torrent.info_url }}">{{ torrent.name }}</a></div>
+							<div class="info">
+								<span class="seeders" title="Seeders"><i class="fa fa-upload"></i> {{ torrent.seeders }}</span>
+								<span class="leechers" title="Leechers"><i class="fa fa-download"></i> {{ torrent.leechers }}</span>
+							</div>
 						</div>
 						<div class="pure-u-4-24">
 							<span class="source source-{{ torrent.source_class }}">{{ torrent.source }}</span>

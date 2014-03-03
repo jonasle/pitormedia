@@ -4,6 +4,7 @@ from flask import request
 from flask import url_for
 import transmissionrpc
 import PirateproxyParser
+import KatProxyParser
 
 web = Flask(__name__)
 
@@ -14,8 +15,7 @@ def home():
 		'torrents' : '',
 		'action' : {'search' : False}
 	}
-	templateData = build_template_data(templateData)
-	return render_template('layout.html', **templateData)
+	return build_template(templateData)
 
 @web.route("/search/", methods = ['POST', 'GET'])
 def search(keywords = None):
@@ -23,14 +23,17 @@ def search(keywords = None):
 		keywords = request.args.get('q', '')
 	p = PirateproxyParser.PirateproxyParser()
 	torrents = p.findtorrents(keywords)
+	k = KatProxyParser.KatProxyParser()
+	torrents += k.findtorrents(keywords)
+	torrents = sorted(torrents, key=lambda torrent: torrent.seeders, reverse=True)
 	templateData = {
 		'title' : 'Super-Awesome',
 		'torrents' : torrents,
+		'q' : keywords,
 		'action' : {'search' : True}
 	}
 	#print torrents
-	templateData = build_template_data(templateData)
-	return render_template('layout.html', **templateData)
+	return build_template(templateData)
 
 @web.route("/download/<path:uri>")
 def download(uri):
@@ -43,14 +46,16 @@ def download(uri):
 			'search' : False, 
 			'status' : True}
 	}
-	return render_template('layout.html', **templateData)
+	return build_template(templateData)
 
-def build_template_data(templateData):
+def build_template(templateData):
 	templateData['urls'] = {
 		'search' 	: url_for('search'),
 		'home'		: url_for('home')
 	}
-	return templateData
+	if('q' not in templateData):
+		templateData['q'] = ''
+	return render_template('layout.html', **templateData)
 
 if __name__ == '__main__':
 	web.run(host='0.0.0.0', port=8080, debug=True)

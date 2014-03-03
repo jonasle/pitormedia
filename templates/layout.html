@@ -2,15 +2,53 @@
 <title>{{ title }}</title>
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<style type="text/css">
+	body{
+		color: #333;
+	}
+	#home{
+		text-align: center
+	}
+	ol#rex li {
+		list-style: none outside none;
+		margin-bottom: 12px;
+	}
+	ol#rex li i.inactive {
+		color: #666;
+	}
+	ol#rex li a{
+		color: #0078e7;
+	}
+	.seeders {
+		font-size: 80%;
+	}
+	.source {
+		margin: 0px 0.1em;
+		padding: 0.3em 1em;
+		color: #fff;
+		background: none repeat scroll 0% 0% #999;
+		font-size: 60%;
+		font-weight: bold;
+		border-radius: 5px;
+	}
+	.source-thepiratebay {
+		color: #000;
+		background-color: #D2B9A6;
+	}
+	.source-kickasstorrents {
+		color: #FFF1A6;
+		background-color: #6F613F;
+	}
+</style>
 <body>
 	{% block header %}
 		<div id="head" class="pure-g-r">
-			<div id="head" class="pure-u-2-24">
-				<span><i class="fa fa-download"></i> PiTorMedia</span>
+			<div id="home" class="pure-u-2-24">
+				<span><i class="fa fa-download fa-3x"></i></span>
 			</div>
 			<div id="search" class="pure-u-16-24">
 				<form class="pure-form" action="{{ urls.search }}">
-					<input type="text" name="q" id="q" class="pure-input-1-2"/>
+					<input type="text" name="q" id="q" class="pure-input-1-2" value="{{ q }}"/>
 					<button type="submit" class="pure-button pure-button-primary">
 						<i class="fa fa-search"></i>
 						Search
@@ -30,10 +68,31 @@
 	{% endblock %}
 	{% if action.search %}
 		<div id="searchResults">
-			<ol>
+			<ol id="rex">
 			{% for torrent in torrents %}
 				<li>
-					<a href="/download/{{ torrent.get_magnet() }}">M</a>&nbsp;<a href="{{ torrent.info_url }}">{{ torrent.name }}</a>
+					<div class="tres pure-g">
+						<div class="pure-u-2-24">
+							{% if torrent.has_magnet %}
+							<a href="/download/{{ torrent.get_magnet() }}"><i class="fa fa-magnet"></i></a>
+							{% else %}
+							{% endif %}
+							{% if torrent.has_torrent %}
+							<a href="{{ torrent.torrent_url }}"><i class="fa fa-download"></i></a>
+							{% else %}
+							<i class="fa fa-download inactive"></i>
+							{% endif %}
+						</div>
+						<div class="pure-u-16-24">
+							<a href="{{ torrent.info_url }}">{{ torrent.name }}</a>
+						</div>
+						<div class="pure-u-2-24">
+							<span class="seeders"><i class="fa fa-users"></i> {{ torrent.seeders }}</span>
+						</div>
+						<div class="pure-u-4-24">
+							<span class="source source-{{ torrent.source_class }}">{{ torrent.source }}</span>
+						</div>
+					</div>
 				</li>
 			{% else %}
 			{% endfor %}

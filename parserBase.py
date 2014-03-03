@@ -17,6 +17,15 @@ class Torrent:
 	info_url 		= ''
 	magnet_link		= ''
 	torrent_url		= ''
+	has_magnet		= False
+	has_torrent		= False
+	source			= ''
+	source_class	= ''
+	seeders			= 0
+
+	def __init__(self, source):
+		self.source = source
+		self.source_class = source.replace(' ', '').lower()
 
 	def get_magnet(self):
 		return urllib.quote(self.magnet_link)

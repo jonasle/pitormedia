@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import urllib2
+import urllib
 from parserBase import *
+import sys
 
 class PirateproxyParser(TorrentParserBase):
 	"""docstring for ClassName"""
@@ -11,7 +13,7 @@ class PirateproxyParser(TorrentParserBase):
 
 	def _constructurl(self, keywords):
 		search_string = ''.join(keywords)
-		return self.settings.searchurl + search_string + '/0/7/0'
+		return self.settings.searchurl + urllib.quote_plus(search_string) + '/0/7/0'
 
 	def _parsepage(self, page):
 		soupPage = BeautifulSoup(page)
@@ -19,7 +21,7 @@ class PirateproxyParser(TorrentParserBase):
 		torrents = []
 		try:
 			for result in searchResults[0].find_all('tr'):
-				searchResult = Torrent()
+				searchResult = Torrent('The PirateBay')
 				name = result.find(class_='detName')
 				if(name is None):	# Not a torrent
 					continue
@@ -29,7 +31,11 @@ class PirateproxyParser(TorrentParserBase):
 						searchResult.info_url = self.settings.base_uri + link.get('href')
 					if(link.get('href').startswith('magnet')):
 						searchResult.magnet_link = link.get('href')
+						searchResult.has_magnet = True
+				columns = result.find_all('td')
+				searchResult.seeders = int(columns[2].get_text())
 				torrents.append(searchResult)
 		except:
+			print "Unexpected error:", sys.exc_info()[0]
 			pass
 		return torrents

@@ -20,14 +20,15 @@
 		color: #0078e7;
 	}
 	.info {
-		font-size: 60%;
+		font-size: 70%;
+		color: #666;
 	}
 	.source {
 		margin: 0px 0.1em;
 		padding: 0.3em 1em;
 		color: #fff;
 		background: none repeat scroll 0% 0% #999;
-		font-size: 60%;
+		font-size: 80%;
 		font-weight: bold;
 		border-radius: 5px;
 	}
@@ -71,8 +72,8 @@
 			<ol id="rex">
 			{% for torrent in torrents %}
 				<li>
-					<div class="tres pure-g">
-						<div class="pure-u-2-24">
+					<div class="tres pure-g pure-table-striped">
+						<div class="pure-u-1-24">
 							{% if torrent.has_magnet %}
 							<a href="/download/{{ torrent.get_magnet() }}"><i class="fa fa-magnet"></i></a>
 							{% else %}
@@ -83,16 +84,13 @@
 							<i class="fa fa-download inactive"></i>
 							{% endif %}
 						</div>
-						<div class="pure-u-18-24">
+						<div class="pure-u-23-24">
 							<div><a href="{{ torrent.info_url }}">{{ torrent.name }}</a></div>
 							<div class="info">
 								<span class="seeders" title="Seeders"><i class="fa fa-upload"></i> {{ torrent.seeders }}</span>
 								<span class="leechers" title="Leechers"><i class="fa fa-download"></i> {{ torrent.leechers }}</span>
+								<span class="source source-{{ torrent.source_class }}">{{ torrent.source }}</span>
 							</div>
-						</div>
-						<div class="pure-u-4-24">
-							<span class="source source-{{ torrent.source_class }}">{{ torrent.source }}</span>
-						</div>
 					</div>
 				</li>
 			{% else %}

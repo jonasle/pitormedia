@@ -33,7 +33,6 @@ class PirateproxyParser(TorrentParserBase):
 						searchResult.magnet_link = link.get('href')
 						searchResult.has_magnet = True
 				columns = result.find_all('td')
-				print columns
 				searchResult.seeders = int(columns[2].get_text())
 				searchResult.leechers = int(columns[3].get_text())
 				torrents.append(searchResult)

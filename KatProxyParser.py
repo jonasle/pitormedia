@@ -35,10 +35,10 @@ class KatProxyParser(TorrentParserBase):
 					if(link.get('href').startswith('magnet')):
 						searchResult.magnet_link = link.get('href')
 						searchResult.has_magnet = True
-				seeders = result.find(class_='green')
+				seeders = result.find('td', class_='green')
 				if(seeders is not None):
 					searchResult.seeders = int(seeders.get_text())
-				leechers = result.find(class_='red')
+				leechers = result.find('td', class_='red')
 				if(leechers is not None):
 					searchResult.leechers = int(leechers.get_text())
 				torrents.append(searchResult)

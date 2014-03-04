@@ -48,6 +48,17 @@ def download(uri):
 	}
 	return build_template(templateData)
 
+@web.route("/torrents/")
+def show_status():
+	templateData = {
+		'title' : 'Super-Awesome',
+		'status' : '',
+		'action' : {
+			'search' : False, 
+			'status' : True}
+	}
+	return build_template(templateData)
+
 def build_template(templateData):
 	templateData['urls'] = {
 		'search' 	: url_for('search'),

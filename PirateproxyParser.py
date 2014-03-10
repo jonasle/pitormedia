@@ -16,7 +16,7 @@ class PirateproxyParser(TorrentParserBase):
 		return self.settings.searchurl + urllib.quote_plus(search_string) + '/0/7/0'
 
 	def _parsepage(self, page):
-		soupPage = BeautifulSoup(page)
+		soupPage = BeautifulSoup(page, 'lxml')
 		searchResults = soupPage.find_all(id='searchResult')
 		torrents = []
 		try:

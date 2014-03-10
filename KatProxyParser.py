@@ -13,10 +13,10 @@ class KatProxyParser(TorrentParserBase):
 
 	def _constructurl(self, keywords):
 		search_string = ''.join(keywords)
-		return self.settings.searchurl + urllib.quote_plus(search_string)
+		return self.settings.searchurl + search_string + '/'
 
 	def _parsepage(self, page):
-		soupPage = BeautifulSoup(page)
+		soupPage = BeautifulSoup(page, 'lxml')
 		searchResults = soupPage.find_all(class_='data')
 		torrents = []
 		try:
